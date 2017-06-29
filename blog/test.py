@@ -1,10 +1,43 @@
 import os
 from unittest import TestCase
 
+from core import app
 from .models import Article
+from user.models import User
+
+
+def login_user(self):
+    data = {
+        'email': 'emailtest@test.com',
+        'password': 'testtest',
+    }
+    self.client.post('/login', data=data, follow_redirects=True)
 
 
 class ArticleTest(TestCase):
+    def setUp(self):
+        self.client = app.test_client()
+        self.user = User(email='emailtest@test.com',
+                         username='emailtest').set_password('testtest')
+        self.user.allow_localization = True
+        self.user.save()
+
+    def tearDown(self):
+        User.objects.delete()
+
+    def test_like_an_article(self):
+        user = User(email='author@test.com',
+                    username='author').set_password('testtest').save()
+        article = Article(title='title', content='<p>content</p>')
+        article.author = user
+        article.save()
+        id_article = Article.objects.first().id
+        login_user(self)
+        result = self.client.get('/article/' + str(id_article) + '/like')
+        self.assertEqual(result.status_code, 302)
+        user = User.objects.get(email='emailtest@test.com')
+        self.assertEqual(user.article_liked.id, id_article)
+
     def test_title_clean_html(self):
         article = Article(title='<h1>title<br></h1>', content='').save()
         self.assertEqual(article.title, 'title')

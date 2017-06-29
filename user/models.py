@@ -9,6 +9,7 @@ from core import db, app
 from core.helpers import slugify
 
 from trips.models import UserLocation
+from blog.models import Article
 
 
 def uniquify_username(username):
@@ -39,6 +40,7 @@ class User(UserMixin, db.Document):
     allow_localization = db.BooleanField()
     current_location = db.GeoPointField()
     socials = db.DictField()
+    article_liked = db.ReferenceField(Article)
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

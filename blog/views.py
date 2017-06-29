@@ -8,8 +8,8 @@ from flask_login import current_user, login_required
 
 from core import app, db
 from core.helpers import url_for_user, url_for_article
-from user.models import User
 from .models import Article
+from user.models import User
 
 
 @app.route('/articles')
@@ -59,6 +59,18 @@ def article_edit(id):
     article.save()
     return redirect(url_for_article(article))
 
+
+@app.route('/article/<string:id>/like', methods=['get'])
+@login_required
+def article_like(id):
+    user = User.objects.get(id=current_user.id)
+    try:
+        article = Article.objects.get(id=id)
+    except Article.DoesNotExist:
+        abort(404)
+    user.article_liked = article
+    user.save()
+    return redirect(url_for_article(article))
 
 
 @app.route('/article/<string:id>/delete', methods=['get'])
