@@ -173,7 +173,23 @@ function scrollCard (poi_id) {
   window.scrollTo(0, (cardTop - cardHeight/2))  
 }
 
-// saving/adding a spot - form
+// section poisCards hidden marker overflow
+const canvas = document.querySelector('#map canvas')
+const poisCards = document.querySelector('#poi-cards')
+poisCards.style.minHeight = `${canvas.height}px`
+
+// pois form
+const poiForm = document.querySelector('#poi-form')
+
+const openForm = document.querySelector('#open-form')
+openForm.addEventListener('click', _ => {
+  poiForm.classList.add('visible')  
+})
+const closeForm = document.querySelector('#close-form')
+closeForm.addEventListener('click', _ => {
+  poiForm.classList.remove('visible')  
+})
+
 
 document.querySelector('#poi-form form').addEventListener('submit', event => {
   event.preventDefault()
