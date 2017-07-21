@@ -6,9 +6,9 @@ main {
 main header {
   width: 75%;
   text-align: center;
-  margin: 0 5rem;
+  margin: 0 5rem 5rem;
   background-color: #fff;
-  box-shadow: 0 2px 2px rgba(50, 50, 50, .2);
+  box-shadow: 0 0.2rem 0.2rem rgba(50, 50, 50, .2);
   border-radius: 0.75rem;
 }
 
@@ -30,14 +30,14 @@ input {
 input:first-of-type {
   padding: 1rem 1.5rem 1rem 5rem;
   background: rgba(50, 50, 50, 0.2);
-  border: 0px solid #dbdbdb;
+  border: 0 solid #dbdbdb;
   width: 40%;
   border-radius: 1rem 0 0 1rem;
 }
 input:last-of-type {
   position: relative;
   padding: 0.8rem 1.5rem;
-  left: -8px;
+  left: -0.8rem;
   border: 0.2rem solid #3ba777;
   background-color: #3ba777;
   color: #fafafa;
@@ -50,10 +50,13 @@ input:last-of-type {
   justify-content: space-around;
   width: 100%;
 }
-
 section {
   width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 5rem;
+  background-color: #fff;
+  box-shadow: 0 0.2rem 0.2rem rgba(50, 50, 50, .2);
+  border-radius: 0.75rem;
 }
