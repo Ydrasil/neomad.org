@@ -10,8 +10,8 @@
 
 {% block main %}
 <header>
-  <form action='' method=post>
-    <input id=search type=search name=search placeholder="search for neomads and articles">
+  <form action='{{ url_for('search') }}' method=get>
+    <input id=search type=search name=q placeholder="search for neomads and articles">
     <input type=submit value=search>
   </form>
 </header>
