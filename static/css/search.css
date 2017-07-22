@@ -3,7 +3,7 @@ main {
   align-items: center;
   flex-direction: column;
 }
-main header {
+main > header {
   width: 75%;
   text-align: center;
   margin: 0 5rem 5rem;

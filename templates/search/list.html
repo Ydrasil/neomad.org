@@ -40,36 +40,11 @@
   <article>
     <h2>articles finding</h2>
     <ul>
-      {% macro article_list(articles, with_author=true) %}
-        {% for article in articles %}
-        {% set url = url_for_article(article) %}
-        <article class=preview>
-          <header class=meta>
-            {% if with_author %}
-            <a href={{ url_for_user(article.author) }}>
-              <img class=avatar-img src={{ article.author.avatar }} width=40 height=40>
-            </a>
-            <div>
-              <a href={{ url_for_user(article.author) }}>{{ article.author.username }}</a>
-              <time datetime={{ article.creation_date }} pubdate>{{ article.creation_date.strftime('%d %B, %Y') }}</time>
-              <p class=reading-time><span>{{ (article.content|length / 6 / 250)|int }}</span> min read</p>
-            </div>
-            {% else %}
-            <time datetime={{ article.creation_date }} pubdate>{{ article.creation_date.strftime('%d %B, %Y') }}</time>
-            {% endif %}
-          </header>
-          <a href={{ url }} lang={{ article.language }}>
-            <h1>{{ article.title|title }}</h1>
-            {% if article.image %}
-            <figure>
-              <img src="{{ article.image }}" width=100%>
-            </figure>
-            {% endif %}
-            {{ article.content|striptags|truncate(200) }}
-          <a href={{ url }} lang={{ article.language }} class=read>Read more</a>
-        </article>
-        {% endfor %}
-      {% endmacro %}
+      {% for article in articles %}
+        <li class=articles>
+          {{ article_list(articles=articles) }}
+        </li>
+      {% endfor %}
     </ul>
   </article>
   {% endif %}
