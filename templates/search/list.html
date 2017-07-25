@@ -1,12 +1,11 @@
-{% from 'blog/macros.html' import article_list with context %}
 {% extends 'layout.html' %}
 
 {% block title %}Search results{% endblock %}
 
 {% block extra_css %}
 <link rel=stylesheet href=//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css>
-<link rel=stylesheet href={{ url_for('static', filename='css/search.css') }}>
 <link rel=stylesheet href={{ url_for('static', filename='css/_article_list.css') }}>
+<link rel=stylesheet href={{ url_for('static', filename='css/search.css') }}>
 {% endblock %}
 
 {% block main %}
@@ -17,37 +16,61 @@
   </form>
 </header>
 
-<section>
-  {% if users %}
-  <article>
+{% if users %}
+<div class=results>
+  <section>
     <h2>neomad finding</h2>
     <ul>
       {% for user in users %}
-      <li class=profiles>
-        <a href='@{{ user.slug }}'>
-          <h2 name=username>{{ user.username }}</h2>
-          <figure>
-            <img class=avatar-img src={{ user.avatar }} width=100 height=100 onerror="this.src='{{ url_for('static', filename='images/avatar.png') }}'">
-          </figure>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </article>
-  {% endif %}
-  
-  {% if articles %}
-  <article>
-    <h2>articles finding</h2>
-    <ul>
-      {% for article in articles %}
-        <li class=articles>
-          {{ article_list(articles=articles) }}
+        <li class=profile-intro>
+          <a href={{ user.slug }}>
+            <h2 name=username>{{ user.username }}</h2>
+            <figure>
+              <img class=avatar-img src={{ user.avatar }} width=100 height=100 onerror="this.src='{{ url_for('static', filename='images/avatar.png') }}'">
+            </figure>
+          </a>
         </li>
       {% endfor %}
     </ul>
-  </article>
+  </section>
+  {% endif %}
+
+  {% if articles %}
+  <section>
+    <h2>articles finding</h2>
+    <ul>
+      {% for article in articles %}
+        <li>
+          <article class=preview>
+            <header class=meta>
+              {% if with_author %}
+              <a href={{ url_for_user(article.author) }}>
+                <img class=avatar-img src={{ article.author.avatar }} width=40 height=40>
+              </a>
+              <div>
+                <a href={{ url_for_user(article.author) }}>{{ article.author.username }}</a>
+                <time datetime={{ article.creation_date }} pubdate>{{ article.creation_date.strftime('%d %B, %Y') }}</time>
+                <p class=reading-time><span>{{ (article.content|length / 6 / 250)|int }}</span> min read</p>
+              </div>
+              {% else %}
+              <time datetime={{ article.creation_date }} pubdate>{{ article.creation_date.strftime('%d %B, %Y') }}</time>
+              {% endif %}
+            </header>
+            <a href={{ url }} lang={{ article.language }}>
+              <h1>{{ article.title|title }}</h1>
+              {% if article.image %}
+              <figure>
+                <img src="{{ article.image }}" width=100%>
+              </figure>
+              {% endif %}
+              {{ article.content|striptags|truncate(200) }}
+            <a href={{ url }} lang={{ article.language }} class=read>Read more</a>
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
   {% endif %}
   
-</section>
+</div>
 {% endblock %}
