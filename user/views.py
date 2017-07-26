@@ -47,7 +47,7 @@ def privacy_delete_trip(timestamp):
 @app.route('/profile', methods=['patch'])
 @login_required
 def profile_edit():
-    data = request.json
+    data = request.get_json()
     permitted_fields = ['username', 'about', 'allow_localization', 'socials']
     user = User.objects.get(id=current_user.id)
     for field, value in data.items():
@@ -65,7 +65,7 @@ def profile_edit_avatar():
         user = User.objects.get(id=current_user.id)
     except User.DoesNotExist:
         abort(404)
-    save_base64_image(request.json['data'],
+    save_base64_image(request.get_json()['data'],
                       '{}/{}'.format(app.config.get('AVATARS_PATH'), user.id),
                       (200, 200))
     return user.avatar, 201

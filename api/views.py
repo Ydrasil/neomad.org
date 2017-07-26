@@ -13,7 +13,7 @@ def spots():
 
 @app.route('/api/spot', methods=['post'])
 def spot_create():
-    response = request.json
+    response = request.get_json()
     spot = Spot(
         name=response.get('name'),
         wifi_quality=response.get('wifi'),

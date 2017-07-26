@@ -24,7 +24,7 @@ def trips(user):
 @login_required
 def trips_add():
     user = User.objects.get(id=current_user.id)
-    user.current_location = request.json
+    user.current_location = request.get_json()
     if not user.locations:
         user.locations = [UserLocation(position=user.current_location)]
         user.save()
